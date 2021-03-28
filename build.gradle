@@ -1,5 +1,10 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.4.31'
+    id 'application'
+}
+
+application {
+    mainClass = 'net.danlew.predictit.Main'
 }
 
 group 'net.danlew'
