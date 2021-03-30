@@ -1,8 +1,11 @@
 package net.danlew.predictit
 
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
+import net.danlew.predictit.analyzer.StubMarketAnalyzer
 import net.danlew.predictit.api.NetworkPredictItApi
 import net.danlew.predictit.db.SqlDelightDatabase
+import net.danlew.predictit.model.Notification
+import net.danlew.predictit.notifier.LogNotifier
 
 object Main {
   @JvmStatic
@@ -15,8 +18,8 @@ object Main {
     val controller = Controller(
       api = predictItApi,
       db = db,
-      analyzers = emptySet(),
-      notifiers = emptySet()
+      analyzers = setOf(StubMarketAnalyzer(Notification.Type.NEW_MARKET)),
+      notifiers = setOf(LogNotifier)
     )
 
     controller.run()

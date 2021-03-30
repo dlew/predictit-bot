@@ -40,7 +40,7 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
     db.transaction {
       notifications.forEach { notification ->
         db.notificationQueries.insert(
-          marketId = notification.marketId,
+          marketId = notification.market.id,
           type = notification.type
         )
       }
@@ -70,8 +70,10 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
 
   override fun allNotifications(): Set<Notification> {
     return db.transactionWithResult {
+      val marketsById = allMarkets().associateBy { it.id }
+
       return@transactionWithResult db.notificationQueries.selectAll().executeAsList()
-        .map { Notification(it.marketId, it.type) }
+        .map { Notification(market = marketsById[it.marketId]!!, type = it.type) }
         .toSet()
     }
   }
