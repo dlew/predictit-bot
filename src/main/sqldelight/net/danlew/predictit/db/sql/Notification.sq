@@ -1,0 +1,19 @@
+import net.danlew.predictit.model.MarketId;
+import net.danlew.predictit.model.Notification.Type;
+
+CREATE TABLE notification(
+  marketId INTEGER AS MarketId NOT NULL,
+
+  type TEXT AS Type NOT NULL,
+
+  UNIQUE(marketId, type),
+
+  FOREIGN KEY(marketId) REFERENCES market(id)
+);
+
+selectAll:
+SELECT * FROM notification;
+
+insert:
+INSERT OR IGNORE INTO notification
+VALUES (?, ?);

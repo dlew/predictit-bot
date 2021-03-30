@@ -1,6 +1,6 @@
 package net.danlew.predictit.api
 
-import net.danlew.predictit.api.model.MarketWithPrices
+import net.danlew.predictit.model.MarketWithPrices
 
 /**
  * Provides access to PredictIt's API.

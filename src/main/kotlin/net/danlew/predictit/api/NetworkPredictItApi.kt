@@ -2,7 +2,7 @@ package net.danlew.predictit.api
 
 import net.danlew.predictit.api.model.ApiMarket
 import net.danlew.predictit.api.model.ApiMarketList
-import net.danlew.predictit.api.model.MarketWithPrices
+import net.danlew.predictit.model.MarketWithPrices
 import net.danlew.predictit.api.moshi.MOSHI
 import org.slf4j.LoggerFactory
 import retrofit2.Response

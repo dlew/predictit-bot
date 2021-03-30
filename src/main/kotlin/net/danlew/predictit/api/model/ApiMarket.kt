@@ -3,6 +3,7 @@ package net.danlew.predictit.api.model
 import com.squareup.moshi.JsonClass
 import net.danlew.predictit.model.*
 import java.time.ZonedDateTime
+import kotlin.math.roundToInt
 
 @JsonClass(generateAdapter = true)
 internal data class ApiMarket(
@@ -16,7 +17,7 @@ internal data class ApiMarket(
 
   fun toMarketWithPrices() = MarketWithPrices(
     market = toMarket(),
-    lastTradePrices = toContractPrices()
+    prices = toContractPrices()
   )
 
   private fun toMarket() = Market(
@@ -28,9 +29,9 @@ internal data class ApiMarket(
   )
 
   private fun toContractPrices() = contracts.associate {
-    ContractId(it.id) to ContractPrice(
+    ContractId(it.id) to PriceAtTime(
       timeStamp = timeStamp,
-      price = it.lastTradePrice
+      price = Price((it.lastTradePrice * 100).roundToInt())
     )
   }
 

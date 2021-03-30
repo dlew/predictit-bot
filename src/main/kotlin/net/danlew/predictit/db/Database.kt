@@ -1,6 +1,6 @@
 package net.danlew.predictit.db
 
-import net.danlew.predictit.api.model.MarketWithPrices
+import net.danlew.predictit.model.MarketWithPrices
 import net.danlew.predictit.model.*
 
 interface Database {
@@ -13,6 +13,6 @@ interface Database {
 
   fun allNotifications(): Set<Notification>
 
-  fun priceHistory(marketId: MarketId): Map<ContractId, List<ContractPrice>>
+  fun priceHistory(marketId: MarketId): Map<ContractId, List<PriceAtTime>>
 
 }

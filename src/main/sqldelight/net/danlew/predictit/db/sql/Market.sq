@@ -1,0 +1,19 @@
+import net.danlew.predictit.model.MarketId;
+import net.danlew.predictit.model.MarketStatus;
+
+CREATE TABLE market(
+  id INTEGER AS MarketId PRIMARY KEY,
+
+  name TEXT NOT NULL,
+
+  url TEXT NOT NULL,
+
+  status TEXT AS MarketStatus NOT NULL
+);
+
+selectAll:
+SELECT * FROM market;
+
+insertOrReplace:
+INSERT OR REPLACE INTO market
+VALUES (?, ?, ?, ?);

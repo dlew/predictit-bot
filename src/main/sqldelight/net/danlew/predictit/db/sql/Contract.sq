@@ -1,0 +1,19 @@
+import net.danlew.predictit.model.ContractId;
+import net.danlew.predictit.model.MarketId;
+
+CREATE TABLE contract(
+  id INTEGER AS ContractId PRIMARY KEY,
+
+  marketId INTEGER AS MarketId NOT NULL,
+
+  name TEXT NOT NULL,
+
+  FOREIGN KEY(marketId) REFERENCES market(id)
+);
+
+selectAll:
+SELECT * FROM contract;
+
+insertOrReplace:
+INSERT OR REPLACE INTO contract
+VALUES (?, ?, ?);

@@ -1,11 +1,40 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.squareup.sqldelight:gradle-plugin:1.4.4'
+    }
+}
+
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.4.31'
-    id "org.jetbrains.kotlin.kapt" version '1.4.31'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
+    id "org.jetbrains.kotlin.kapt" version '1.4.32'
     id 'application'
 }
 
+apply plugin: 'com.squareup.sqldelight'
+
 application {
     mainClass = 'net.danlew.predictit.Main'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+sqldelight {
+    SqlDatabase {
+        packageName = "net.danlew.predictit.db.sql"
+    }
 }
 
 group 'net.danlew'
@@ -18,8 +47,8 @@ repositories {
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib'
 
-    compile 'org.slf4j:slf4j-api:1.7.30'
-    compile 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
 
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
@@ -27,5 +56,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
     implementation 'com.squareup.moshi:moshi-kotlin:1.11.0'
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.11.0'
+
+    implementation "com.squareup.sqldelight:sqlite-driver:1.4.4"
 
 }

@@ -1,0 +1,26 @@
+import java.time.ZonedDateTime;
+import net.danlew.predictit.model.ContractId;
+import net.danlew.predictit.model.Price;
+
+CREATE TABLE price(
+  contractId INTEGER AS ContractId NOT NULL,
+
+  timeStamp INTEGER AS ZonedDateTime NOT NULL,
+
+  price INTEGER AS Price NOT NULL,
+
+  UNIQUE(contractId, timeStamp),
+
+  FOREIGN KEY(contractId) REFERENCES contract(id)
+);
+
+selectAllForMarket:
+SELECT price.contractId, price.timeStamp, price.price
+FROM price
+INNER JOIN contract ON price.contractId = contract.id
+INNER JOIN market ON contract.marketId = ?
+ORDER BY timeStamp DESC;
+
+insert:
+INSERT OR IGNORE INTO price
+VALUES (?, ?, ?);
