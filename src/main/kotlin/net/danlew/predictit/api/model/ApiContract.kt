@@ -10,12 +10,14 @@ import java.math.BigDecimal
 internal data class ApiContract(
   val id: Long,
   val name: String,
+  val image: String,
   val lastTradePrice: Double
 ) {
 
   fun toContract() = Contract(
     id = ContractId(id),
-    name = name
+    name = name,
+    image = image
   )
 
 }

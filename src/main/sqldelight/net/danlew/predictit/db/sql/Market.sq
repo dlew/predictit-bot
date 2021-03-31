@@ -6,6 +6,8 @@ CREATE TABLE market(
 
   name TEXT NOT NULL,
 
+  image TEXT NOT NULL,
+
   url TEXT NOT NULL,
 
   status TEXT AS MarketStatus NOT NULL
@@ -16,4 +18,4 @@ SELECT * FROM market;
 
 insertOrReplace:
 INSERT OR REPLACE INTO market
-VALUES (?, ?, ?, ?);
+VALUES (?, ?, ?, ?, ?);

@@ -13,6 +13,7 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
         db.marketQueries.insertOrReplace(
           id = market.id,
           name = market.name,
+          image = market.image,
           url = market.url,
           status = market.status
         )
@@ -21,7 +22,8 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
           db.contractQueries.insertOrReplace(
             id = contract.id,
             marketId = market.id,
-            name = contract.name
+            name = contract.name,
+            image = contract.image
           )
         }
 
@@ -54,12 +56,13 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
 
       val contractsByMarketId: Map<MarketId, List<Contract>> = allContracts
         .groupBy { it.marketId }
-        .mapValues { (_, value) -> value.map { Contract(it.id, it.name) } }
+        .mapValues { (_, value) -> value.map { Contract(it.id, it.name, it.image) } }
 
       return@transactionWithResult allMarkets.map {
         Market(
           id = it.id,
           name = it.name,
+          image = it.image,
           url = it.url,
           status = it.status,
           contracts = contractsByMarketId[it.id]!!

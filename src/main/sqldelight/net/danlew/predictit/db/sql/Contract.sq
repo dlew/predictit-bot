@@ -8,6 +8,8 @@ CREATE TABLE contract(
 
   name TEXT NOT NULL,
 
+  image TEXT NOT NULL,
+
   FOREIGN KEY(marketId) REFERENCES market(id)
 );
 
@@ -16,4 +18,4 @@ SELECT * FROM contract;
 
 insertOrReplace:
 INSERT OR REPLACE INTO contract
-VALUES (?, ?, ?);
+VALUES (?, ?, ?, ?);

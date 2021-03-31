@@ -6,6 +6,7 @@ package net.danlew.predictit.model
 data class Market(
   val id: MarketId,
   val name: String,
+  val image: String,
   val url: String,
   val status: MarketStatus,
   val contracts: List<Contract>

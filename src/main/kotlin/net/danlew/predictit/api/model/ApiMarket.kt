@@ -9,6 +9,7 @@ import kotlin.math.roundToInt
 internal data class ApiMarket(
   val id: Long,
   val name: String,
+  val image: String,
   val url: String,
   val timeStamp: ZonedDateTime,
   val status: MarketStatus,
@@ -23,6 +24,7 @@ internal data class ApiMarket(
   private fun toMarket() = Market(
     id = MarketId(id),
     name = name,
+    image = image,
     url = url,
     status = status,
     contracts = contracts.map(ApiContract::toContract)
