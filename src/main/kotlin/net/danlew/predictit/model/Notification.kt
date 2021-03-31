@@ -4,16 +4,15 @@ package net.danlew.predictit.model
  * Represents something we want to tell users.
  */
 data class Notification(
-  val market: Market,
+  val marketId: MarketId,
+  val contractId: ContractId? = null,
   val type: Type
 ) {
 
   enum class Type {
-    NEW_MARKET
-  }
-
-  fun format(): String {
-    return "${type.name} for ${market.name}"
+    MARKET_OPENED,
+    MARKET_CLOSED,
+    CONTRACT_ADDED
   }
 
 }

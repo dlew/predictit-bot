@@ -3,6 +3,7 @@ package net.danlew.predictit
 import net.danlew.predictit.analyzer.MarketAnalyzer
 import net.danlew.predictit.api.PredictItApi
 import net.danlew.predictit.db.Database
+import net.danlew.predictit.notifier.NotificationFormatter
 import net.danlew.predictit.notifier.Notifier
 
 /**
@@ -15,7 +16,12 @@ class Controller(
   private val notifiers: Set<Notifier>
 ) {
 
+  private val notificationFormatter = NotificationFormatter(db)
+
   fun run() {
+    val oldMarkets = db.allMarkets()
+    val oldMarketsById = oldMarkets.associateBy { it.id }
+
     // Refresh the data
     val marketsWithPrices = api.allMarkets() ?: return
 
@@ -25,10 +31,9 @@ class Controller(
     db.insertOrUpdate(marketsWithPrices)
 
     // Run every Market through every Analyzer
-    val notifications = db.allMarkets().flatMap { market ->
-      val priceHistory = db.priceHistory(market.id)
+    val notifications = marketsWithPrices.flatMap { marketWithPrices ->
       analyzers.flatMap { analyzer ->
-        analyzer.analyze(market, priceHistory)
+        analyzer.analyze(oldMarketsById[marketWithPrices.market.id], marketWithPrices)
       }
     }.toSet()
 
@@ -37,7 +42,8 @@ class Controller(
     db.insertOrUpdateNotifications(newNotifications)
 
     // Notify everyone of new notifications
-    notifiers.forEach { it.notify(newNotifications) }
+    val formattedNotifications = newNotifications.map(notificationFormatter::formatNotification).toSet()
+    notifiers.forEach { it.notify(formattedNotifications) }
 
     // TODO: Cull old data so the DB doesn't get overly large?
   }

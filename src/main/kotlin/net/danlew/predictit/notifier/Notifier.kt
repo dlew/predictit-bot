@@ -1,9 +1,9 @@
 package net.danlew.predictit.notifier
 
-import net.danlew.predictit.model.Notification
+import net.danlew.predictit.model.FormattedNotification
 
 interface Notifier {
 
-  fun notify(notifications: Set<Notification>)
+  fun notify(notifications: Set<FormattedNotification>)
 
 }

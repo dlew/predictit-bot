@@ -4,10 +4,8 @@ import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
-import net.danlew.predictit.db.SqlDelightDatabase
 import net.danlew.predictit.model.ContractId
 import net.danlew.predictit.model.MarketId
-import net.danlew.predictit.util.Constants
 import java.io.File
 import java.time.Instant
 import java.time.ZoneId
@@ -48,6 +46,7 @@ internal object SqlDelightUtils {
       ),
       notificationAdapter = Notification.Adapter(
         marketIdAdapter = MarketIdColumnAdapter,
+        contractIdAdapter = ContractIdColumnAdapter,
         typeAdapter = EnumColumnAdapter()
       ),
       priceAdapter = Price.Adapter(
