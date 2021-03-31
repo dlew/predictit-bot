@@ -2,7 +2,7 @@ package net.danlew.predictit.api.model
 
 import com.squareup.moshi.JsonClass
 import net.danlew.predictit.model.*
-import java.time.ZonedDateTime
+import java.time.Instant
 import kotlin.math.roundToInt
 
 @JsonClass(generateAdapter = true)
@@ -11,7 +11,7 @@ internal data class ApiMarket(
   val name: String,
   val image: String,
   val url: String,
-  val timeStamp: ZonedDateTime,
+  val timeStamp: Instant,
   val status: MarketStatus,
   val contracts: List<ApiContract>
 ) {

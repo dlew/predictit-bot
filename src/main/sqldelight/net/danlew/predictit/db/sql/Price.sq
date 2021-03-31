@@ -1,11 +1,11 @@
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import net.danlew.predictit.model.ContractId;
 import net.danlew.predictit.model.Price;
 
 CREATE TABLE price(
   contractId INTEGER AS ContractId NOT NULL,
 
-  timeStamp INTEGER AS ZonedDateTime NOT NULL,
+  timeStamp INTEGER AS Instant NOT NULL,
 
   price INTEGER AS Price NOT NULL,
 

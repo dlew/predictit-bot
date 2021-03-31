@@ -1,10 +1,10 @@
 package net.danlew.predictit.test
 
 import net.danlew.predictit.model.*
-import java.time.ZonedDateTime
+import java.time.Instant
 
 fun basicContractPrices() = mapOf(
-  ContractId(1L) to PriceAtTime(ZonedDateTime.now(), Price(50))
+  ContractId(1L) to PriceAtTime(Instant.ofEpochSecond(1000L), Price(50))
 )
 
 fun basicMarket() = Market(

@@ -8,8 +8,6 @@ import net.danlew.predictit.model.ContractId
 import net.danlew.predictit.model.MarketId
 import java.io.File
 import java.time.Instant
-import java.time.ZoneId
-import java.time.ZonedDateTime
 
 internal object SqlDelightUtils {
 
@@ -51,7 +49,7 @@ internal object SqlDelightUtils {
       ),
       priceAdapter = Price.Adapter(
         contractIdAdapter = ContractIdColumnAdapter,
-        timeStampAdapter = ZonedDateTimeColumnAdapter,
+        timeStampAdapter = InstantColumnAdapter,
         priceAdapter = PriceColumnAdapter
       )
     )
@@ -67,10 +65,9 @@ internal object SqlDelightUtils {
     override fun encode(value: ContractId) = value.id
   }
 
-  private object ZonedDateTimeColumnAdapter : ColumnAdapter<ZonedDateTime, Long> {
-    private val UTC_ZONE = ZoneId.of("UTC")
-    override fun decode(databaseValue: Long) = ZonedDateTime.ofInstant(Instant.ofEpochMilli(databaseValue), UTC_ZONE)
-    override fun encode(value: ZonedDateTime) = value.toInstant().toEpochMilli()
+  private object InstantColumnAdapter : ColumnAdapter<Instant, Long> {
+    override fun decode(databaseValue: Long) = Instant.ofEpochMilli(databaseValue)
+    override fun encode(value: Instant) = value.toEpochMilli()
   }
 
   private object PriceColumnAdapter : ColumnAdapter<net.danlew.predictit.model.Price, Long> {

@@ -1,12 +1,12 @@
 package net.danlew.predictit.model
 
-import java.time.ZonedDateTime
+import java.time.Instant
 
 /**
  * Represents the price of a [Contract] at a particular time.
  */
 data class PriceAtTime(
-  val timeStamp: ZonedDateTime,
+  val timeStamp: Instant,
   val price: Price
 ) : Comparable<PriceAtTime> {
 
