@@ -88,9 +88,7 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
 
   companion object {
     fun createDb(driver: SqlDriver): SqlDelightDatabase {
-      SqlDatabase.Schema.create(driver)
-      val db = SqlDelightUtils.createSqlDatabase(driver)
-      return SqlDelightDatabase(db)
+      return SqlDelightDatabase(SqlDelightUtils.createSqlDatabase(driver))
     }
   }
 }

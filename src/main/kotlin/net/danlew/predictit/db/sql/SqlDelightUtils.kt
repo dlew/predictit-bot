@@ -3,13 +3,37 @@ package net.danlew.predictit.db.sql
 import com.squareup.sqldelight.ColumnAdapter
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.db.SqlDriver
+import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
+import net.danlew.predictit.db.SqlDelightDatabase
 import net.danlew.predictit.model.ContractId
 import net.danlew.predictit.model.MarketId
+import net.danlew.predictit.util.Constants
+import java.io.File
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
 internal object SqlDelightUtils {
+
+  /**
+   * Creates a [SqlDriver] with the correct Schema in place
+   */
+  fun createDriver(dataDir: File, dbName: String): SqlDriver {
+    check(!dataDir.mkdirs()) { "Could not create data directory $dataDir" }
+
+    // Note: We don't support upgrades because we assume PredictIt's API rarely changes
+    // If you change schema, just delete the old DB and recreate
+    val dbFile = File(dataDir, dbName)
+    val needsCreate = !dbFile.exists()
+
+    val driver = JdbcSqliteDriver("jdbc:sqlite:$dataDir/$dbName")
+
+    if (needsCreate) {
+      SqlDatabase.Schema.create(driver)
+    }
+
+    return driver
+  }
 
   fun createSqlDatabase(driver: SqlDriver): SqlDatabase {
     return SqlDatabase(
