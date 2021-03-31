@@ -53,9 +53,9 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
     }
   }
 
-  override fun allMarkets(): Set<Market> {
+  override fun allMarkets(status: MarketStatus): Set<Market> {
     return db.transactionWithResult {
-      val allMarkets = db.marketQueries.selectAll().executeAsList()
+      val allMarkets = db.marketQueries.allMarkets(status).executeAsList()
       val allContracts = db.contractQueries.selectAll().executeAsList()
 
       val contractsByMarketId: Map<MarketId, List<Contract>> = allContracts

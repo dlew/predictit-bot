@@ -9,7 +9,7 @@ interface Database {
 
   fun insertOrUpdateNotifications(notifications: Set<Notification>)
 
-  fun allMarkets(): Set<Market>
+  fun allMarkets(status: MarketStatus): Set<Market>
 
   fun allNotifications(): Set<Notification>
 

@@ -15,8 +15,9 @@ CREATE TABLE market(
   status TEXT AS MarketStatus NOT NULL
 );
 
-selectAll:
-SELECT * FROM market;
+allMarkets:
+SELECT * FROM market
+WHERE status = ?;
 
 insertOrReplace:
 INSERT OR REPLACE INTO market
