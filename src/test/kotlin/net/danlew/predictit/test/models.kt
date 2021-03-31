@@ -9,7 +9,8 @@ fun basicContractPrices() = mapOf(
 
 fun basicMarket() = Market(
   id = MarketId(1L),
-  name = "Who shot Burns?",
+  name = "Who shot Mr. Burns?",
+  shortName = "Who shot Burns",
   image = "https://path.to/image/market",
   url = "https://predictit.org/example",
   status = MarketStatus.OPEN,
@@ -19,5 +20,7 @@ fun basicMarket() = Market(
 fun basicContract() = Contract(
   id = ContractId(1L),
   name = "Maggie Simpson",
-  image = "https://path.to/image/maggie"
+  shortName = "Maggie",
+  image = "https://path.to/image/maggie",
+  status = MarketStatus.OPEN,
 )

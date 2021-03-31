@@ -1,5 +1,6 @@
 import net.danlew.predictit.model.ContractId;
 import net.danlew.predictit.model.MarketId;
+import net.danlew.predictit.model.MarketStatus;
 
 CREATE TABLE contract(
   id INTEGER AS ContractId PRIMARY KEY,
@@ -8,7 +9,11 @@ CREATE TABLE contract(
 
   name TEXT NOT NULL,
 
+  shortName TEXT NOT NULL,
+
   image TEXT NOT NULL,
+
+  status TEXT AS MarketStatus NOT NULL,
 
   FOREIGN KEY(marketId) REFERENCES market(id)
 );
@@ -18,4 +23,4 @@ SELECT * FROM contract;
 
 insertOrReplace:
 INSERT OR REPLACE INTO contract
-VALUES (?, ?, ?, ?);
+VALUES (?, ?, ?, ?, ?, ?);

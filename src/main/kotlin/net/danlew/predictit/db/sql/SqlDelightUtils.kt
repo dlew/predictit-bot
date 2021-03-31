@@ -6,6 +6,7 @@ import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import net.danlew.predictit.model.ContractId
 import net.danlew.predictit.model.MarketId
+import net.danlew.predictit.model.MarketStatus
 import java.io.File
 import java.time.Instant
 
@@ -36,7 +37,8 @@ internal object SqlDelightUtils {
       driver = driver,
       contractAdapter = Contract.Adapter(
         idAdapter = ContractIdColumnAdapter,
-        marketIdAdapter = MarketIdColumnAdapter
+        marketIdAdapter = MarketIdColumnAdapter,
+        statusAdapter = EnumColumnAdapter()
       ),
       marketAdapter = Market.Adapter(
         idAdapter = MarketIdColumnAdapter,

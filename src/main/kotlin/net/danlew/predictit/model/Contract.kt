@@ -6,5 +6,7 @@ package net.danlew.predictit.model
 data class Contract(
   val id: ContractId,
   val name: String,
-  val image: String
+  val shortName: String,
+  val image: String,
+  val status: MarketStatus
 )
