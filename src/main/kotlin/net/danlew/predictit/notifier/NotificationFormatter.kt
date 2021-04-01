@@ -12,6 +12,8 @@ class NotificationFormatter(val db: Database) {
       MARKET_OPENED -> marketOpened(notification)
       MARKET_CLOSED -> marketClosed(notification)
       CONTRACT_ADDED -> contractAdded(notification)
+      HIGH_VOLATILITY -> highVolatility(notification)
+      NEGATIVE_RISK -> negativeRisk(notification)
     }
   }
 
@@ -28,7 +30,7 @@ class NotificationFormatter(val db: Database) {
   }
 
   private fun marketClosed(notification: Notification): FormattedNotification {
-    require(notification.type == MARKET_OPENED)
+    require(notification.type == MARKET_CLOSED)
 
     val market = db.getMarket(notification.marketId)!!
 
@@ -40,7 +42,7 @@ class NotificationFormatter(val db: Database) {
   }
 
   private fun contractAdded(notification: Notification): FormattedNotification {
-    require(notification.type == MARKET_OPENED)
+    require(notification.type == CONTRACT_ADDED)
     requireNotNull(notification.contractId)
 
     val market = db.getMarket(notification.marketId)!!
@@ -50,6 +52,30 @@ class NotificationFormatter(val db: Database) {
       text = "New contract in ${market.name}: ${contract.name}",
       textShort = "New contract in ${market.shortName}: ${contract.shortName}",
       imageUrl = contract.image
+    )
+  }
+
+  private fun highVolatility(notification: Notification): FormattedNotification {
+    require(notification.type == HIGH_VOLATILITY)
+
+    val market = db.getMarket(notification.marketId)!!
+
+    return FormattedNotification(
+      text = "High volatility in: ${market.name}",
+      textShort = "High volatility in: ${market.shortName}",
+      imageUrl = market.image
+    )
+  }
+
+  private fun negativeRisk(notification: Notification): FormattedNotification {
+    require(notification.type == NEGATIVE_RISK)
+
+    val market = db.getMarket(notification.marketId)!!
+
+    return FormattedNotification(
+      text = "Negative risk opportunity: ${market.name}",
+      textShort = "Negative risk opportunity: ${market.shortName}",
+      imageUrl = market.image
     )
   }
 

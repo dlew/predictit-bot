@@ -12,7 +12,9 @@ data class Notification(
   enum class Type {
     MARKET_OPENED,
     MARKET_CLOSED,
-    CONTRACT_ADDED
+    CONTRACT_ADDED,
+    HIGH_VOLATILITY,
+    NEGATIVE_RISK,
   }
 
 }
