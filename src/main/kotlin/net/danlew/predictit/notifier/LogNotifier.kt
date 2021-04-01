@@ -9,7 +9,7 @@ object LogNotifier : Notifier {
 
   override fun notify(notifications: Set<FormattedNotification>) {
     notifications.forEach {
-      logger.info(it.text)
+      logger.info("${it.text} / ${it.link}")
     }
   }
 

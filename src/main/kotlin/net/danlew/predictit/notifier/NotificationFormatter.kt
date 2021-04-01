@@ -25,6 +25,7 @@ class NotificationFormatter(val db: Database) {
     return FormattedNotification(
       text = "New market! ${market.name}",
       textShort = "New market! ${market.shortName}",
+      link = market.url,
       imageUrl = market.image
     )
   }
@@ -37,6 +38,7 @@ class NotificationFormatter(val db: Database) {
     return FormattedNotification(
       text = "Market CLOSED! ${market.name}",
       textShort = "Market CLOSED! ${market.shortName}",
+      link = market.url,
       imageUrl = market.image
     )
   }
@@ -51,6 +53,7 @@ class NotificationFormatter(val db: Database) {
     return FormattedNotification(
       text = "New contract in ${market.name}: ${contract.name}",
       textShort = "New contract in ${market.shortName}: ${contract.shortName}",
+      link = market.url,
       imageUrl = contract.image
     )
   }
@@ -63,6 +66,7 @@ class NotificationFormatter(val db: Database) {
     return FormattedNotification(
       text = "High volatility in: ${market.name}",
       textShort = "High volatility in: ${market.shortName}",
+      link = market.url,
       imageUrl = market.image
     )
   }
@@ -75,6 +79,7 @@ class NotificationFormatter(val db: Database) {
     return FormattedNotification(
       text = "Negative risk opportunity: ${market.name}",
       textShort = "Negative risk opportunity: ${market.shortName}",
+      link = market.url,
       imageUrl = market.image
     )
   }
