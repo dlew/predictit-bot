@@ -14,13 +14,6 @@ CREATE TABLE price(
   FOREIGN KEY(contractId) REFERENCES contract(id)
 );
 
-selectAllForMarket:
-SELECT price.contractId, price.timeStamp, price.price
-FROM price
-INNER JOIN contract ON price.contractId = contract.id
-INNER JOIN market ON contract.marketId = ?
-ORDER BY timeStamp DESC;
-
 insert:
 INSERT OR IGNORE INTO price
 VALUES (?, ?, ?);

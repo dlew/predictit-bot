@@ -17,6 +17,4 @@ interface Database {
 
   fun allNotifications(): Set<Notification>
 
-  fun priceHistory(marketId: MarketId): Map<ContractId, List<PriceAtTime>>
-
 }

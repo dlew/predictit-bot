@@ -96,14 +96,6 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
     }
   }
 
-  override fun priceHistory(marketId: MarketId): Map<ContractId, List<PriceAtTime>> {
-    return db.transactionWithResult {
-      return@transactionWithResult db.priceQueries.selectAllForMarket(marketId).executeAsList()
-        .groupBy { it.contractId }
-        .mapValues { (_, value) -> value.map { PriceAtTime(it.timeStamp, it.price) } }
-    }
-  }
-
   private fun net.danlew.predictit.db.sql.Contract.toContract() = Contract(
     id = id,
     name = name,
