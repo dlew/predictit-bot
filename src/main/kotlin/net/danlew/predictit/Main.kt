@@ -3,6 +3,7 @@ package net.danlew.predictit
 import net.danlew.predictit.analyzer.ContractAddedAnalyzer
 import net.danlew.predictit.analyzer.MarketClosedAnalyzer
 import net.danlew.predictit.analyzer.MarketOpenedAnalyzer
+import net.danlew.predictit.analyzer.NegativeRiskAnalyzer
 import net.danlew.predictit.api.NetworkPredictItApi
 import net.danlew.predictit.db.SqlDelightDatabase
 import net.danlew.predictit.db.sql.SqlDelightUtils
@@ -25,7 +26,8 @@ object Main {
       analyzers = setOf(
         MarketOpenedAnalyzer,
         MarketClosedAnalyzer,
-        ContractAddedAnalyzer
+        ContractAddedAnalyzer,
+        NegativeRiskAnalyzer
       ),
       notifiers = setOf(LogNotifier)
     )
