@@ -19,6 +19,11 @@ allMarkets:
 SELECT * FROM market
 WHERE status = ?;
 
+getById:
+SELECT *
+FROM market
+WHERE id = ?;
+
 insertOrReplace:
 INSERT OR REPLACE INTO market
 VALUES (?, ?, ?, ?, ?, ?);

@@ -9,6 +9,10 @@ interface Database {
 
   fun insertOrUpdateNotifications(notifications: Set<Notification>)
 
+  fun getMarket(id: MarketId): Market?
+
+  fun getContract(id: ContractId): Contract?
+
   fun allMarkets(status: MarketStatus): Set<Market>
 
   fun allNotifications(): Set<Notification>

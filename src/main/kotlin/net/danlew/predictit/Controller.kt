@@ -53,7 +53,7 @@ class Controller(
     val marketsWithPrices = api.allMarkets() ?: return null
 
     // Manually refresh any markets not in "all markets" (this indicates a closed market)
-    val missingMarketIds = marketsWithPrices.map { it.market.id } - existingMarketIds
+    val missingMarketIds = existingMarketIds - marketsWithPrices.map { it.market.id }
     val missingMarkets = missingMarketIds.mapNotNull(api::marketById)
 
     return marketsWithPrices + missingMarkets

@@ -21,6 +21,16 @@ CREATE TABLE contract(
 selectAll:
 SELECT * FROM contract;
 
+getById:
+SELECT *
+FROM contract
+WHERE id = ?;
+
+getForMarket:
+SELECT *
+FROM contract
+WHERE marketId = ?;
+
 insertOrReplace:
 INSERT OR REPLACE INTO contract
 VALUES (?, ?, ?, ?, ?, ?);

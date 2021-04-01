@@ -53,6 +53,18 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
     }
   }
 
+  override fun getMarket(id: MarketId): Market? {
+    return db.transactionWithResult {
+      val market = db.marketQueries.getById(id).executeAsOneOrNull() ?: return@transactionWithResult null
+      val contracts = db.contractQueries.getForMarket(id).executeAsList().map { it.toContract() }
+      return@transactionWithResult market.toMarket(contracts)
+    }
+  }
+
+  override fun getContract(id: ContractId): Contract? {
+    return db.contractQueries.getById(id).executeAsOneOrNull()?.toContract()
+  }
+
   override fun allMarkets(status: MarketStatus): Set<Market> {
     return db.transactionWithResult {
       val allMarkets = db.marketQueries.allMarkets(status).executeAsList()
@@ -61,27 +73,11 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
       val contractsByMarketId: Map<MarketId, List<Contract>> = allContracts
         .groupBy { it.marketId }
         .mapValues { (_, values) ->
-          values.map {
-            Contract(
-              id = it.id,
-              name = it.name,
-              shortName = it.shortName,
-              image = it.image,
-              status = it.status
-            )
-          }
+          values.map { it.toContract() }
         }
 
       return@transactionWithResult allMarkets.map {
-        Market(
-          id = it.id,
-          name = it.name,
-          shortName = it.shortName,
-          image = it.image,
-          url = it.url,
-          status = it.status,
-          contracts = contractsByMarketId[it.id]!!
-        )
+        it.toMarket(contractsByMarketId[it.id]!!)
       }.toSet()
     }
   }
@@ -107,6 +103,24 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
         .mapValues { (_, value) -> value.map { PriceAtTime(it.timeStamp, it.price) } }
     }
   }
+
+  private fun net.danlew.predictit.db.sql.Contract.toContract() = Contract(
+    id = id,
+    name = name,
+    shortName = shortName,
+    image = image,
+    status = status
+  )
+
+  private fun net.danlew.predictit.db.sql.Market.toMarket(contracts: List<Contract>) = Market(
+    id = id,
+    name = name,
+    shortName = shortName,
+    image = image,
+    url = url,
+    status = status,
+    contracts = contracts
+  )
 
   companion object {
     fun createDb(driver: SqlDriver): SqlDelightDatabase {
