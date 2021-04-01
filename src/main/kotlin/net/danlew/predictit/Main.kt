@@ -1,5 +1,6 @@
 package net.danlew.predictit
 
+import net.danlew.predictit.analyzer.ContractAddedAnalyzer
 import net.danlew.predictit.analyzer.MarketClosedAnalyzer
 import net.danlew.predictit.analyzer.MarketOpenedAnalyzer
 import net.danlew.predictit.api.NetworkPredictItApi
@@ -23,7 +24,8 @@ object Main {
       db = db,
       analyzers = setOf(
         MarketOpenedAnalyzer,
-        MarketClosedAnalyzer
+        MarketClosedAnalyzer,
+        ContractAddedAnalyzer
       ),
       notifiers = setOf(LogNotifier)
     )
