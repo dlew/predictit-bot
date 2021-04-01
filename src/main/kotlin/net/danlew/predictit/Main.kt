@@ -1,5 +1,6 @@
 package net.danlew.predictit
 
+import net.danlew.predictit.analyzer.MarketClosedAnalyzer
 import net.danlew.predictit.analyzer.MarketOpenedAnalyzer
 import net.danlew.predictit.api.NetworkPredictItApi
 import net.danlew.predictit.db.SqlDelightDatabase
@@ -20,7 +21,10 @@ object Main {
     val controller = Controller(
       api = predictItApi,
       db = db,
-      analyzers = setOf(MarketOpenedAnalyzer),
+      analyzers = setOf(
+        MarketOpenedAnalyzer,
+        MarketClosedAnalyzer
+      ),
       notifiers = setOf(LogNotifier)
     )
 

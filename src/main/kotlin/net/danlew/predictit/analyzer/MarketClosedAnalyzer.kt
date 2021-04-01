@@ -6,14 +6,13 @@ import net.danlew.predictit.model.MarketWithPrices
 import net.danlew.predictit.model.Notification
 
 /**
- * Detects newly opened [Market]s.
+ * Detects recently closed [Market]s.
  */
-object MarketOpenedAnalyzer : MarketAnalyzer {
+object MarketClosedAnalyzer : MarketAnalyzer {
 
   override fun analyze(oldMarketData: Market?, latestData: MarketWithPrices): Set<Notification> {
-    if (latestData.market.status == MarketStatus.OPEN
-      && (oldMarketData == null || oldMarketData.status == MarketStatus.CLOSED)) {
-      return setOf(Notification(latestData.market.id, type = Notification.Type.MARKET_OPENED))
+    if (latestData.market.status == MarketStatus.CLOSED && oldMarketData?.status == MarketStatus.OPEN) {
+      return setOf(Notification(latestData.market.id, type = Notification.Type.MARKET_CLOSED))
     }
 
     return emptySet()
