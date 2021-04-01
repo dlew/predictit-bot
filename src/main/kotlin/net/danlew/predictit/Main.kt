@@ -30,6 +30,14 @@ object Main {
       notifiers = setOf(LogNotifier)
     )
 
-    controller.run()
+    while(true) {
+      controller.run()
+
+      // PredictIt updates every minute
+      //
+      // I know that, due to run time, this means we update *less* than every minute,
+      // but I think that's alright - we're not going for pinpoint accuracy here.
+      Thread.sleep(60 * 1000)
+    }
   }
 }
