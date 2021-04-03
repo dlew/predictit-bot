@@ -8,6 +8,7 @@ import net.danlew.predictit.api.NetworkPredictItApi
 import net.danlew.predictit.db.SqlDelightDatabase
 import net.danlew.predictit.db.sql.SqlDelightUtils
 import net.danlew.predictit.notifier.LogNotifier
+import net.danlew.predictit.notifier.TwitterNotifier
 import net.danlew.predictit.util.Constants
 import java.io.File
 import java.time.Clock
@@ -29,7 +30,10 @@ object Main {
         ContractAddedAnalyzer,
         NegativeRiskAnalyzer
       ),
-      notifiers = setOf(LogNotifier)
+      notifiers = setOf(
+        LogNotifier,
+        TwitterNotifier()
+      )
     )
 
     while (true) {

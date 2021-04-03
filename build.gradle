@@ -60,5 +60,7 @@ dependencies {
 
     implementation "com.squareup.sqldelight:sqlite-driver:1.4.4"
 
+    compile 'org.twitter4j:twitter4j-core:4.0.7'
+
     testImplementation 'junit:junit:4.13.2'
 }
