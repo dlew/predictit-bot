@@ -4,8 +4,15 @@ import com.squareup.sqldelight.db.SqlDriver
 import net.danlew.predictit.db.sql.SqlDatabase
 import net.danlew.predictit.db.sql.SqlDelightUtils
 import net.danlew.predictit.model.*
+import java.time.Clock
+import java.time.Duration
+import java.time.Instant
 
-class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Database {
+class SqlDelightDatabase private constructor(
+  private val db: SqlDatabase,
+  private val expirationDuration: Duration,
+  private val clock: Clock
+) : Database {
 
   override fun insertOrUpdate(markets: Set<MarketWithPrices>) {
     db.transaction {
@@ -43,12 +50,26 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
 
   override fun insertOrUpdateNotifications(notifications: Set<Notification>) {
     db.transaction {
+      val currentNotifications = allNotifications()
+
+      val expiration = Instant.now(clock).plus(expirationDuration)
       notifications.forEach { notification ->
-        db.notificationQueries.insert(
-          marketId = notification.marketId,
-          contractId = notification.contractId,
-          type = notification.type
-        )
+        // We use update or insert because contractId can be null (thus UNIQUE does not work for conflict detection)
+        if (notification in currentNotifications) {
+          db.notificationQueries.updateExpiration(
+            marketId = notification.marketId,
+            contractId = notification.contractId,
+            type = notification.type,
+            expiration = expiration
+          )
+        } else {
+          db.notificationQueries.insert(
+            marketId = notification.marketId,
+            contractId = notification.contractId,
+            type = notification.type,
+            expiration = expiration
+          )
+        }
       }
     }
   }
@@ -96,6 +117,12 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
     }
   }
 
+  override fun deleteExpiredNotifications() {
+    db.transaction {
+      db.notificationQueries.deleteExpired(Instant.now(clock))
+    }
+  }
+
   private fun net.danlew.predictit.db.sql.Contract.toContract() = Contract(
     id = id,
     name = name,
@@ -115,8 +142,8 @@ class SqlDelightDatabase private constructor(private val db: SqlDatabase) : Data
   )
 
   companion object {
-    fun createDb(driver: SqlDriver): SqlDelightDatabase {
-      return SqlDelightDatabase(SqlDelightUtils.createSqlDatabase(driver))
+    fun createDb(driver: SqlDriver, expirationDuration: Duration, clock: Clock): SqlDelightDatabase {
+      return SqlDelightDatabase(SqlDelightUtils.createSqlDatabase(driver), expirationDuration, clock)
     }
   }
 }

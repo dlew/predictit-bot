@@ -17,4 +17,6 @@ interface Database {
 
   fun allNotifications(): Set<Notification>
 
+  fun deleteExpiredNotifications()
+
 }

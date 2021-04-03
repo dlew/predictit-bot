@@ -34,6 +34,7 @@ compileKotlin {
 sqldelight {
     SqlDatabase {
         packageName = "net.danlew.predictit.db.sql"
+        dialect = "sqlite:3.25"
     }
 }
 

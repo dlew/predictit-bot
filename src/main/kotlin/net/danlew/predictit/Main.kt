@@ -7,10 +7,10 @@ import net.danlew.predictit.analyzer.NegativeRiskAnalyzer
 import net.danlew.predictit.api.NetworkPredictItApi
 import net.danlew.predictit.db.SqlDelightDatabase
 import net.danlew.predictit.db.sql.SqlDelightUtils
-import net.danlew.predictit.model.Notification
 import net.danlew.predictit.notifier.LogNotifier
 import net.danlew.predictit.util.Constants
 import java.io.File
+import java.time.Clock
 
 object Main {
   @JvmStatic
@@ -18,7 +18,7 @@ object Main {
     val predictItApi = NetworkPredictItApi()
 
     val driver = SqlDelightUtils.createDriver(File(".", Constants.DATA_DIR), Constants.DB_NAME)
-    val db = SqlDelightDatabase.createDb(driver)
+    val db = SqlDelightDatabase.createDb(driver, Constants.EXPIRATION_DURATION, Clock.systemUTC())
 
     val controller = Controller(
       api = predictItApi,
@@ -32,7 +32,7 @@ object Main {
       notifiers = setOf(LogNotifier)
     )
 
-    while(true) {
+    while (true) {
       controller.run()
 
       // PredictIt updates every minute

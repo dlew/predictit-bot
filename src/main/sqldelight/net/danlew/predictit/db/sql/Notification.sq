@@ -1,3 +1,4 @@
+import java.time.Instant;
 import net.danlew.predictit.model.ContractId;
 import net.danlew.predictit.model.MarketId;
 import net.danlew.predictit.model.Notification.Type;
@@ -9,6 +10,8 @@ CREATE TABLE notification(
 
   type TEXT AS Type NOT NULL,
 
+  expiration INTEGER AS Instant NOT NULL,
+
   UNIQUE(marketId, contractId, type),
 
   FOREIGN KEY(marketId) REFERENCES market(id),
@@ -19,5 +22,14 @@ selectAll:
 SELECT * FROM notification;
 
 insert:
-INSERT OR IGNORE INTO notification
-VALUES (?, ?, ?);
+INSERT INTO notification
+VALUES (?, ?, ?, ?);
+
+updateExpiration:
+UPDATE notification
+SET expiration = ?
+WHERE marketId=? AND contractId=? AND type=?;
+
+deleteExpired:
+DELETE FROM notification
+WHERE expiration < ?;

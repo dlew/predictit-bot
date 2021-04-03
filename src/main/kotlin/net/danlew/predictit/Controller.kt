@@ -39,13 +39,19 @@ class Controller(
 
     // Find out which notifications are new
     val newNotifications = notifications - db.allNotifications()
-    db.insertOrUpdateNotifications(newNotifications)
+
+    // Update notifications; this may replace old Notifications with new Notifications
+    // with a more recent expiration date
+    db.insertOrUpdateNotifications(notifications)
 
     // Notify everyone of new notifications
     val formattedNotifications = newNotifications.map(notificationFormatter::formatNotification).toSet()
     notifiers.forEach { it.notify(formattedNotifications) }
 
-    // TODO: Cull old data so the DB doesn't get overly large?
+    // Delete expired notifications; this allows us to re-notify about events that may
+    // have happened in the past, stopped, then started again (e.g. negative risk on May 1,
+    // no negative risk on May 3, and negative risk again on May 5).
+    db.deleteExpiredNotifications()
   }
 
   private fun getFreshMarketData(existingMarketIds: Set<MarketId>): Set<MarketWithPrices>? {
