@@ -117,6 +117,17 @@ class SqlDelightDatabase private constructor(
     }
   }
 
+  override fun pricesSince(id: MarketId, since: Instant): List<PricesAtTime> {
+    return db.priceQueries.selectPricesSince(marketId = id, timeStamp = since).executeAsList()
+      .groupBy { it.timeStamp }
+      .map { (timeStamp, values) ->
+        PricesAtTime(
+          timeStamp = timeStamp,
+          prices = values.associate { it.contractId to it.price }
+        )
+      }
+  }
+
   override fun deleteExpiredNotifications() {
     db.transaction {
       db.notificationQueries.deleteExpired(Instant.now(clock))
