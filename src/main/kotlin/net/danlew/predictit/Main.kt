@@ -28,7 +28,7 @@ object Main {
         MarketOpenedAnalyzer,
         MarketClosedAnalyzer,
         ContractAddedAnalyzer,
-        NegativeRiskAnalyzer
+        NegativeRiskAnalyzer(db)
       ),
       notifiers = setOf(
         LogNotifier,
