@@ -17,3 +17,9 @@ CREATE TABLE price(
 insert:
 INSERT OR IGNORE INTO price
 VALUES (?, ?, ?);
+
+selectPricesSince:
+SELECT *
+FROM price
+INNER JOIN contract ON price.contractId = contract.id
+WHERE contract.marketId = ? AND timeStamp > ?;

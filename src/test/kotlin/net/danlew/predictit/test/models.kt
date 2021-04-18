@@ -3,8 +3,9 @@ package net.danlew.predictit.test
 import net.danlew.predictit.model.*
 import java.time.Instant
 
-fun basicContractPrices() = mapOf(
-  ContractId(1L) to PriceAtTime(Instant.ofEpochSecond(1000L), Price(50))
+fun basicContractPrices() = PricesAtTime(
+  timeStamp = Instant.ofEpochSecond(1000L),
+  prices = mapOf(ContractId(1L) to Price(50))
 )
 
 fun basicMarket() = Market(

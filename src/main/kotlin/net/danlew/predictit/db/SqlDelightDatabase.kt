@@ -37,11 +37,11 @@ class SqlDelightDatabase private constructor(
           )
         }
 
-        lastTradePrices.forEach { (contractId, priceAtTime) ->
+        lastTradePrices.prices.forEach { (contractId, price) ->
           db.priceQueries.insert(
             contractId = contractId,
-            timeStamp = priceAtTime.timeStamp,
-            price = priceAtTime.price
+            timeStamp = lastTradePrices.timeStamp,
+            price = price
           )
         }
       }
@@ -115,6 +115,17 @@ class SqlDelightDatabase private constructor(
         }
         .toSet()
     }
+  }
+
+  override fun pricesSince(id: MarketId, since: Instant): List<PricesAtTime> {
+    return db.priceQueries.selectPricesSince(marketId = id, timeStamp = since).executeAsList()
+      .groupBy { it.timeStamp }
+      .map { (timeStamp, values) ->
+        PricesAtTime(
+          timeStamp = timeStamp,
+          prices = values.associate { it.contractId to it.price }
+        )
+      }
   }
 
   override fun deleteExpiredNotifications() {

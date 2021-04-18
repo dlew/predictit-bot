@@ -1,7 +1,7 @@
 package net.danlew.predictit.db
 
-import net.danlew.predictit.model.MarketWithPrices
 import net.danlew.predictit.model.*
+import java.time.Instant
 
 interface Database {
 
@@ -16,6 +16,8 @@ interface Database {
   fun allMarkets(status: MarketStatus): Set<Market>
 
   fun allNotifications(): Set<Notification>
+
+  fun pricesSince(id: MarketId, since: Instant): List<PricesAtTime>
 
   fun deleteExpiredNotifications()
 
