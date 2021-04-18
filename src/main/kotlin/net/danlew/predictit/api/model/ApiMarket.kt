@@ -19,7 +19,7 @@ internal data class ApiMarket(
 
   fun toMarketWithPrices() = MarketWithPrices(
     market = toMarket(),
-    prices = toContractPrices()
+    pricesAtTime = PricesAtTime(timeStamp = timeStamp, prices = toContractPrices())
   )
 
   private fun toMarket() = Market(
@@ -33,10 +33,7 @@ internal data class ApiMarket(
   )
 
   private fun toContractPrices() = contracts.associate {
-    ContractId(it.id) to PriceAtTime(
-      timeStamp = timeStamp,
-      price = Price((it.lastTradePrice * 100).roundToInt())
-    )
+    ContractId(it.id) to Price((it.lastTradePrice * 100).roundToInt())
   }
 
 }

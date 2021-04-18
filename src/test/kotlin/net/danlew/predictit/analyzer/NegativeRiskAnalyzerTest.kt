@@ -94,10 +94,13 @@ class NegativeRiskAnalyzerTest {
         )
       )
     ),
-    prices = mapOf(
-      ContractId(1L) to PriceAtTime(Instant.ofEpochSecond(1), price1),
-      ContractId(2L) to PriceAtTime(Instant.ofEpochSecond(1), price2),
-      ContractId(3L) to PriceAtTime(Instant.ofEpochSecond(1), price3)
+    pricesAtTime = PricesAtTime(
+      timeStamp = Instant.ofEpochSecond(1),
+      prices = mapOf(
+        ContractId(1L) to price1,
+        ContractId(2L) to price2,
+        ContractId(3L) to price3
+      )
     )
   )
 }

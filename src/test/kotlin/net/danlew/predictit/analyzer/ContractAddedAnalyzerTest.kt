@@ -28,8 +28,9 @@ class ContractAddedAnalyzerTest {
     )
     val marketWithNewContractsWithPrices = MarketWithPrices(
       market = marketWithNewContracts,
-      prices = openMarketWithPrices.prices + mapOf(
-        newContract.id to PriceAtTime(Instant.ofEpochMilli(2000), Price(25))
+      pricesAtTime = PricesAtTime(
+        timeStamp = Instant.ofEpochMilli(2000),
+        prices = openMarketWithPrices.pricesAtTime.prices + mapOf(newContract.id to Price(25))
       )
     )
 

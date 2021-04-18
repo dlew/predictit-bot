@@ -37,11 +37,11 @@ class SqlDelightDatabase private constructor(
           )
         }
 
-        lastTradePrices.forEach { (contractId, priceAtTime) ->
+        lastTradePrices.prices.forEach { (contractId, price) ->
           db.priceQueries.insert(
             contractId = contractId,
-            timeStamp = priceAtTime.timeStamp,
-            price = priceAtTime.price
+            timeStamp = lastTradePrices.timeStamp,
+            price = price
           )
         }
       }

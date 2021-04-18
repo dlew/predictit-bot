@@ -22,8 +22,8 @@ object NegativeRiskAnalyzer : MarketAnalyzer {
     // Closed markets can't be used!
     if (latestData.market.status == MarketStatus.CLOSED) return emptySet()
 
-    val totalPrices = latestData.prices.values
-      .map { it.price.value }
+    val totalPrices = latestData.pricesAtTime.prices.values
+      .map { it.value }
       .filter { it > 1 }
       .sum()
 
